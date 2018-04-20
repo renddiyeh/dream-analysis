@@ -1,17 +1,14 @@
-import { scaleLinear } from 'd3-scale';
 import coordinates from 'coordinate-systems';
 import getcentroid from 'triangle-centroid';
 
 import {
   FEELING,
-  GENDER,
-  FACTORS,
   TRIES,
   ABILITY,
   EXTERNAL,
   PERSONAL,
 } from './constants';
-import { scaleTriangleAlpha, scaleTriangleColor, scaleTriangleApex } from './factors';
+import { scaleTriangleAlpha, scaleTriangleApex } from './factors';
 import arrayAdd from '../utils/arrayAdd';
 
 export const order = [ABILITY, EXTERNAL, PERSONAL];
@@ -19,23 +16,9 @@ export const order = [ABILITY, EXTERNAL, PERSONAL];
 const surveyFuncs = {
   [FEELING]: (score) => ({ alpha: scaleTriangleAlpha(score) }),
   // [GENDER]: (score) => ({ color: scaleTriangleColor(score) }),
-  [FACTORS]: (score) => {
-    let factors = {
-      [ABILITY]: 1,
-      [EXTERNAL]: 1,
-      [PERSONAL]: 1,
-    };
-
-    factors = Object.keys(score)
-      .reduce((acc, cur) => {
-        const value = score[cur];
-        acc[cur] = scaleTriangleApex(value);
-
-        return acc;
-      }, factors);
-
-    return { factors };
-  },
+  [ABILITY]: (score) => ({ [ABILITY]: scaleTriangleApex(score) }),
+  [EXTERNAL]: (score) => ({ [EXTERNAL]: scaleTriangleApex(score) }),
+  [PERSONAL]: (score) => ({ [PERSONAL]: scaleTriangleApex(score) }),
   [TRIES]: () => ({ rotation: 0.008 }),
 };
 
@@ -53,10 +36,9 @@ const getParameter = (score) => Object.keys(score)
 
 export default (score, size = 50, c, rotation = 0) => {
   const props = getParameter(score);
-  const { factors } = props;
   const triangleSide = size / 3;
   const center = c || [size / 2, size / 2];
-  const rds = order.map((key, index) => [triangleSide * factors[key], -90 - index * 120]);
+  const rds = order.map((key, index) => [triangleSide * props[key], -90 - index * 120]);
   const plot = rds.map((coords) => {
     const cart = coordinates.polar({
       coords,

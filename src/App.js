@@ -5,14 +5,11 @@ import sortBy from 'lodash/sortBy';
 import DreamShape from './DreamShape';
 import DreamMap from './DreamMap';
 import data from './data';
-import {
-  ABILITY,
-  EXTERNAL,
-  PERSONAL,
-  FACTORS,
-  GENDER,
-} from './DreamShape/constants';
-import { scaleTriangleColor } from './DreamShape/factors';
+// import {
+//   ABILITY,
+//   EXTERNAL,
+//   PERSONAL,
+// } from './DreamShape/constants';
 
 const Flex = styled.div`
   display: flex;
@@ -34,16 +31,16 @@ const Name = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const AbsDream = styled(DreamShape)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: ${({ opacity }) => opacity}};
-`;
+// const AbsDream = styled(DreamShape)`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   opacity: ${({ opacity }) => opacity}};
+// `;
 
-const list = [ABILITY, EXTERNAL, PERSONAL];
+// const list = [ABILITY, EXTERNAL, PERSONAL];
 
 class App extends Component {
   render() {

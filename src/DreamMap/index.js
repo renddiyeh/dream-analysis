@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import SVG from 'svg.js';
 import coordinates from 'coordinate-systems';
 import getcentroid from 'triangle-centroid';
-import round from 'lodash/round';
 
 import { order } from '../DreamShape/getDreamShape';
-import {
-  FACTORS,
-} from '../DreamShape/constants';
 import arrayAdd from '../utils/arrayAdd';
 
 const parsePolar = (coords) => coordinates.polar({
@@ -44,17 +40,14 @@ export default class DreamMap extends PureComponent {
     data.forEach(this.parseScore);
   }
 
-  parseScore = ({ avg: score, name }) => {
-    const { size } = this.props;
-    const factors = score[FACTORS];
-
+  parseScore = ({ avg, name }) => {
     // draw centroids
-    const rds = order.map((key, index) => [factors[key], -90 - index * 120]);
+    const rds = order.map((key, index) => [avg[key], -90 - index * 120]);
     const plot = rds.map(parsePolar);
     const centroid = getcentroid(plot);
     const [r, theta] = coordinates.cart(centroid).polar();
     const amplifiedCentro = [r * this.amplifyBase, theta];
-    console.log([r, theta / (Math.PI / 2) * 180]);
+
     const amplifiedCentroCart = arrayAdd(coordinates.polar(amplifiedCentro).cart(), this.cp);
     this.draw.circle(5).attr({
       cx: amplifiedCentroCart[0],

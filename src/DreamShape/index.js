@@ -5,9 +5,6 @@ import styled from 'styled-components';
 import round from 'lodash/round';
 
 import getDreamShape, { order } from './getDreamShape';
-import {
-  FACTORS,
-} from './constants';
 
 const Relatvie = styled.div`
   position: relative;
@@ -66,7 +63,7 @@ export default class DreamShape extends PureComponent {
       size: 5,
       anchor: 'middle',
     });
-    order.map((key, i) => this.draw.text(`${key} ${numberFormat(score[FACTORS][key])}`).attr({
+    order.map((key, i) => this.draw.text(`${key} ${numberFormat(score[key])}`).attr({
       x: plot[i][0],
       y: plot[i][1] - (i === 0 ? 16 : 0),
     }).font({
